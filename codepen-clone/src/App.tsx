@@ -7,26 +7,31 @@ const App = () => {
   const [code, setCode] = useState("");
   const ref = useRef<any>();
 
-  const onClick = () => {
+  const onClick = async () => {
     if (!ref.current) {
       return;
     }
 
-    console.log(ref.current);
-    ref.current.focus();
+    const result = await ref.current.transform(input, {
+      loader: "jsx",
+      target: "es2015",
+    });
+
+    console.log(result);
+    setCode(result.code);
   };
 
   // initl esbuild
-  // const startService = async () => {
-  //   ref.current = await esbuild.startService({
-  //     worker: true,
-  //     wasmURL: "./esbuild.wasm",
-  //   });
-  // };
+  const startService = async () => {
+    ref.current = await esbuild.startService({
+      worker: true,
+      wasmURL: "./esbuild.wasm",
+    });
+  };
 
-  // useEffect(() => {
-  //   startService();
-  // }, []);
+  useEffect(() => {
+    startService();
+  }, []);
 
   return (
     <div>
@@ -34,7 +39,6 @@ const App = () => {
       <div>
         <textarea
           value={input}
-          ref={ref}
           onChange={(e) => setInput(e.target.value)}
         ></textarea>
         <button onClick={onClick}>submit</button>
