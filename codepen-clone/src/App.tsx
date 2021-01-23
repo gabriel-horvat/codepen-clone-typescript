@@ -1,6 +1,6 @@
 import * as esbuild from "esbuild-wasm";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -18,6 +18,10 @@ const App = () => {
     });
     console.log(service);
   };
+
+  useEffect(() => {
+    startService();
+  }, []);
 
   return (
     <div>
