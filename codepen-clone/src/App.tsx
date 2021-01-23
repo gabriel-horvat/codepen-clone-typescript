@@ -1,27 +1,32 @@
 import * as esbuild from "esbuild-wasm";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const App = () => {
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
+  const ref = useRef<any>();
 
   const onClick = () => {
-    console.log(input);
+    if (!ref.current) {
+      return;
+    }
+
+    console.log(ref.current);
+    ref.current.focus();
   };
 
   // initl esbuild
-  const startService = async () => {
-    const service = await esbuild.startService({
-      worker: true,
-      wasmURL: "./esbuild.wasm",
-    });
-    console.log(service);
-  };
+  // const startService = async () => {
+  //   ref.current = await esbuild.startService({
+  //     worker: true,
+  //     wasmURL: "./esbuild.wasm",
+  //   });
+  // };
 
-  useEffect(() => {
-    startService();
-  }, []);
+  // useEffect(() => {
+  //   startService();
+  // }, []);
 
   return (
     <div>
@@ -29,6 +34,7 @@ const App = () => {
       <div>
         <textarea
           value={input}
+          ref={ref}
           onChange={(e) => setInput(e.target.value)}
         ></textarea>
         <button onClick={onClick}>submit</button>
