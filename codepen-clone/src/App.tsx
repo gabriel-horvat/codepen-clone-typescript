@@ -1,6 +1,7 @@
 import * as esbuild from "esbuild-wasm";
 import React from "react";
 import { useState, useEffect, useRef } from "react";
+import CodeEditor from "./components/code-editor";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -37,6 +38,7 @@ const App = () => {
     <div>
       <h1>CODEPEN CLONE</h1>
       <div>
+        <CodeEditor />
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
