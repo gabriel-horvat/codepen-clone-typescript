@@ -38,7 +38,10 @@ const App = () => {
     <div>
       <h1>CODEPEN CLONE</h1>
       <div>
-        <CodeEditor />
+        <CodeEditor
+          initialValue="const hi = hello world;"
+          onChange={(value) => setInput(value)}
+        />
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
