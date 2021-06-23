@@ -49,18 +49,32 @@ export const unpkgPathPlugin = () => {
             loader: "jsx",
             contents: `
             import React, {useState} from 'react';
-            const axios = require('axios')
               console.log(React, useState);
             `,
           };
         }
+
+        // check if already fetched this file
+        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
+          args.path
+        );
+        if (cachedResult) {
+          return cachedResult;
+        }
+
+        // if its in cache already return
+        // else request file
         const { data, request } = await axios.get(args.path);
-        console.log(request);
-        return {
+
+        const result: esbuild.OnLoadResult = {
           loader: "jsx",
           contents: data,
           resolveDir: new URL("./", request.responseURL).pathname,
         };
+
+        // store response in cache
+        await fileCache.setItem(args.path, result);
+        return result;
       });
     },
   };
