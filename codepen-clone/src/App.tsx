@@ -60,8 +60,11 @@ const App = () => {
         <button onClick={onClick}>submit</button>
       </div>
       <pre>{code}</pre>
+      <iframe sandbox="" title="I'm the one and only iframe" srcDoc={html} />
     </div>
   );
 };
+
+const html = `<h1>Local HTML doc </h1>`;
 
 export default App;
