@@ -1,3 +1,4 @@
+import "bulmaswatch/superhero/bulmaswatch.min.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
