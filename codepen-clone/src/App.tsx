@@ -8,6 +8,7 @@ import { fetchPlugin } from "./plugins/fetch-plugin";
 const App = () => {
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
+  const iframe = useRef<any>();
   const ref = useRef<any>();
 
   const onClick = async () => {
@@ -28,7 +29,8 @@ const App = () => {
 
     // console.log(result);
 
-    setCode(result.outputFiles[0].text);
+    // setCode(result.outputFiles[0].text);
+    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, "*");
   };
 
   // initl esbuild
@@ -43,7 +45,17 @@ const App = () => {
     startService();
   }, []);
 
-  const html = `<script>${code}</script>`;
+  const html = `<html>
+  <head></head>
+  <body>
+  <div id = 'root'> </div>
+  <script>
+  window.addEventListener('message', (event) => {
+    eval(event.data)
+      }, false)
+  </script>
+  </body>
+  </html>`;
 
   return (
     <div>
@@ -61,6 +73,7 @@ const App = () => {
       </div>
       <pre>{code}</pre>
       <iframe
+        ref={iframe}
         sandbox="allow-scripts"
         title="I'm the one and only iframe"
         srcDoc={html}
@@ -68,7 +81,5 @@ const App = () => {
     </div>
   );
 };
-
-// const html = `<h1>Local HTML doc </h1>`;
 
 export default App;
