@@ -43,6 +43,8 @@ const App = () => {
     startService();
   }, []);
 
+  const html = `<script>${code}</script>`;
+
   return (
     <div>
       <h1>CODEPEN CLONE</h1>
@@ -58,11 +60,15 @@ const App = () => {
         <button onClick={onClick}>submit</button>
       </div>
       <pre>{code}</pre>
-      <iframe sandbox="" title="I'm the one and only iframe" srcDoc={html} />
+      <iframe
+        sandbox="allow-scripts"
+        title="I'm the one and only iframe"
+        srcDoc={html}
+      />
     </div>
   );
 };
 
-const html = `<h1>Local HTML doc </h1>`;
+// const html = `<h1>Local HTML doc </h1>`;
 
 export default App;
