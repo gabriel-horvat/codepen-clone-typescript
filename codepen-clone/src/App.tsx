@@ -4,18 +4,18 @@ import { useState, useEffect, useRef } from "react";
 import CodeEditor from "./components/code-editor";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
+import Preview from "./components/preview";
 
 const App = () => {
   const [input, setInput] = useState("");
-  const iframe = useRef<any>();
+  const [code, setCode] = useState("");
+
   const ref = useRef<any>();
 
   const onClick = async () => {
     if (!ref.current) {
       return;
     }
-
-    iframe.current.srcdoc = html;
 
     const result = await ref.current.build({
       entryPoints: ["index.js"],
@@ -30,8 +30,7 @@ const App = () => {
 
     // console.log(result);
 
-    // setCode(result.outputFiles[0].text);
-    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, "*");
+    setCode(result.outputFiles[0].text);
   };
 
   // initl esbuild
@@ -46,27 +45,6 @@ const App = () => {
     startService();
   }, []);
 
-  // try catch block below wont catch async errors
-
-  const html = `<html>
-  <head></head>
-  <body>
-  <div id = 'root'> </div>
-  <script>
-  window.addEventListener('message', (event) => {
-    try {
-      eval(event.data);
-    } catch (err) {
-      const root = document.querySelector('#root');
-root.innerHTML = '<div style = "color: red;" >' + err + '</div>'
-console.error(err);
-    }
-
-      }, false);
-  </script>
-  </body>
-  </html>`;
-
   return (
     <div>
       <h1>CODEPEN CLONE</h1>
@@ -75,18 +53,9 @@ console.error(err);
           initialValue="const hi = hello world;"
           onChange={(value) => setInput(value)}
         />
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        ></textarea>
         <button onClick={onClick}>submit</button>
       </div>
-      <iframe
-        ref={iframe}
-        sandbox="allow-scripts"
-        title="I'm the one and only iframe"
-        srcDoc={html}
-      />
+      <Preview code={code} />
     </div>
   );
 };
