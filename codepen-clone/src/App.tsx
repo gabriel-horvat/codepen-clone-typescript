@@ -7,7 +7,6 @@ import { fetchPlugin } from "./plugins/fetch-plugin";
 
 const App = () => {
   const [input, setInput] = useState("");
-  const [code, setCode] = useState("");
   const iframe = useRef<any>();
   const ref = useRef<any>();
 
@@ -15,6 +14,8 @@ const App = () => {
     if (!ref.current) {
       return;
     }
+
+    iframe.current.srcdoc = html;
 
     const result = await ref.current.build({
       entryPoints: ["index.js"],
@@ -80,7 +81,6 @@ console.error(err);
         ></textarea>
         <button onClick={onClick}>submit</button>
       </div>
-      <pre>{code}</pre>
       <iframe
         ref={iframe}
         sandbox="allow-scripts"
