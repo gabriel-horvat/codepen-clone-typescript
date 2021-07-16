@@ -45,14 +45,23 @@ const App = () => {
     startService();
   }, []);
 
+  // try catch block below wont catch async errors
+
   const html = `<html>
   <head></head>
   <body>
   <div id = 'root'> </div>
   <script>
   window.addEventListener('message', (event) => {
-    eval(event.data)
-      }, false)
+    try {
+      eval(event.data);
+    } catch (err) {
+      const root = document.querySelector('#root');
+root.innerHTML = '<div style = "color: red;" >' + err + '</div>'
+console.error(err);
+    }
+
+      }, false);
   </script>
   </body>
   </html>`;
