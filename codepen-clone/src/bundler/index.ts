@@ -4,8 +4,7 @@ import * as esbuild from "esbuild-wasm";
 
 let service: esbuild.Service;
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default async (rawCode: string) => {
+const bundle = async (rawCode: string) => {
   if (!service) {
     service = await esbuild.startService({
       worker: true,
@@ -28,3 +27,5 @@ export default async (rawCode: string) => {
 
   return result.outputFiles[0].text;
 };
+
+export default bundle;
