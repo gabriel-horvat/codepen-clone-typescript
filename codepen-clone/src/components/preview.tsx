@@ -56,6 +56,7 @@ const Preview: React.FC<PreviewProps> = ({ code, err }) => {
         title="I'm the one and only iframe"
         srcDoc={html}
       />
+      {err && <div className="display-error"> {err}</div>}
     </div>
   );
 };
