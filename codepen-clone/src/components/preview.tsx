@@ -18,6 +18,13 @@ const html = `<html>
     root.innerHTML = '<div style = "color: red;" >' + err + '</div>'
     console.error(err);
   }
+
+  window.addEventListener('error', (event) => {
+    event.preventDefault();
+    handleError(event.error);
+  });
+
+
   window.addEventListener('message', (event) => {
     try {
       eval(event.data);
