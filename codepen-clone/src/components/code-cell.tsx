@@ -8,6 +8,7 @@ const CodeCell = () => {
   // input is whatever the user is typing into editor
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
+  const [err, setErr] = useState("");
 
   useEffect(() => {
     // only execute user's code after 1sec
@@ -15,7 +16,8 @@ const CodeCell = () => {
       // bundle input
       const output = await bundle(input);
       // update code state
-      setCode(output);
+      setCode(output.code);
+      setErr(output.err);
     }, 1000);
 
     return () => {
@@ -32,7 +34,7 @@ const CodeCell = () => {
             onChange={(value) => setInput(value)}
           />
         </Resizable>
-        <Preview code={code} />
+        <Preview code={code} err={err} />
       </div>
     </Resizable>
   );
