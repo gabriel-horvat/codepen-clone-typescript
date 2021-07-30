@@ -23,6 +23,9 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
       timer = setTimeout(() => {
         setinnerHeight(window.innerHeight);
         setinnerWidth(window.innerWidth);
+        if (window.innerWidth * 0.75 < width) {
+          setwidth(window.innerWidth * 0.75);
+        }
       }, 100);
     };
     window.addEventListener("resize", listener);
